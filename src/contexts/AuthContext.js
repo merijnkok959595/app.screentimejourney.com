@@ -13,7 +13,7 @@ export const useAuth = () => {
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   useEffect(() => {
@@ -22,7 +22,7 @@ export const AuthProvider = ({ children }) => {
 
   const checkAuthState = async () => {
     try {
-      setLoading(true);
+      // Skip loading state for immediate app access
       const user = await Auth.currentAuthenticatedUser();
       setUser(user);
       setIsAuthenticated(true);
@@ -31,9 +31,8 @@ export const AuthProvider = ({ children }) => {
       console.log('❌ User is not authenticated');
       setUser(null);
       setIsAuthenticated(false);
-    } finally {
-      setLoading(false);
     }
+    // No loading state changes
   };
 
   const signUp = async (email, password, phone, fullName) => {

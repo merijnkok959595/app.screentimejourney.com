@@ -447,7 +447,7 @@ function AudioPlayer({ audioUrl }) {
 
 function App() {
   // Authentication integration
-  const { user, loading: authLoading, isAuthenticated, signOut } = useAuth();
+  const { user, isAuthenticated, signOut } = useAuth(); // Removed authLoading to prevent spinner
   
   const [customerData, setCustomerData] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -467,6 +467,14 @@ function App() {
 
   // Sticky button handlers
   const handleGetStarted = () => {
+    // Check if Stripe is configured
+    if (!process.env.REACT_APP_STRIPE_PUBLISHABLE_KEY || !process.env.REACT_APP_STRIPE_PREMIUM_PRICE_ID) {
+      // Temporary: Redirect to Shopify until Stripe is fully configured
+      console.warn('⚠️ Stripe not configured - redirecting to Shopify');
+      window.open('https://www.screentimejourney.com/products/screentimejourney', '_blank');
+      return;
+    }
+    
     if (isAuthenticated) {
       // User is authenticated, show payment modal
       setSelectedPlan('premium');
@@ -488,6 +496,22 @@ function App() {
   useEffect(() => {
     setShowStickyButton(!showAuthModal && !showPaymentModal);
   }, [showAuthModal, showPaymentModal]);
+
+  // Debug: Check Stripe configuration
+  useEffect(() => {
+    const stripeKey = process.env.REACT_APP_STRIPE_PUBLISHABLE_KEY;
+    const premiumPriceId = process.env.REACT_APP_STRIPE_PREMIUM_PRICE_ID;
+    
+    console.log('🔍 Stripe Configuration Check:');
+    console.log('Publishable Key:', stripeKey ? '✅ Set' : '❌ Missing');
+    console.log('Premium Price ID:', premiumPriceId ? '✅ Set' : '❌ Missing');
+    
+    if (!stripeKey || !premiumPriceId) {
+      console.warn('⚠️ Stripe not fully configured - buttons will redirect to Shopify');
+    } else {
+      console.log('✅ Stripe ready - payment modals will work');
+    }
+  }, []);
   const [testScenario, setTestScenario] = useState('ground_zero');
   const [showOnboarding, setShowOnboarding] = useState(false);
   const [onboardStep, setOnboardStep] = useState(1);
