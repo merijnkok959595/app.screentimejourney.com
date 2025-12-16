@@ -1,0 +1,38 @@
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-size: 14px; /* Default desktop font size */
+  /* Improve text rendering on mobile */
+  text-size-adjust: 100%;
+  -webkit-text-size-adjust: 100%;
+}
+
+@media (max-width: 768px) {
+  body {
+    font-size: 14px; /* Increased for better mobile readability */
+  }
+}
+
+/* Ensure proper viewport behavior on mobile */
+@media (max-width: 768px) {
+  html {
+    /* Prevent horizontal scroll on mobile */
+    overflow-x: clip; /* Use clip instead of hidden to allow sticky positioning */
+    width: 100%;
+  }
+  
+  body {
+    /* Better touch scrolling */
+    -webkit-overflow-scrolling: touch;
+    overflow-x: clip; /* Use clip instead of hidden to allow sticky positioning */
+  }
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
