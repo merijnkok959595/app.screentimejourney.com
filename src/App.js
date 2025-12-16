@@ -469,9 +469,9 @@ function App() {
   const handleGetStarted = () => {
     // Check if Stripe is configured
     if (!process.env.REACT_APP_STRIPE_PUBLISHABLE_KEY || !process.env.REACT_APP_STRIPE_PREMIUM_PRICE_ID) {
-      // Temporary: Redirect to Shopify until Stripe is fully configured
-      console.warn('⚠️ Stripe not configured - redirecting to Shopify');
-      window.open('https://www.screentimejourney.com/products/screentimejourney', '_blank');
+      // NO SHOPIFY - Show error message instead
+      console.error('❌ Stripe not configured - cannot process payments');
+      alert('Payment system is being configured. Please try again in a few minutes.');
       return;
     }
     
